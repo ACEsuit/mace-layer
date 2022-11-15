@@ -1,6 +1,6 @@
-# MACE - Diffusion
+# MACE - Core
 
-Generative diffusion model based on MACE.
+A MACE layer for broad use on 3D point clouds.
 
 ## Installation
 
