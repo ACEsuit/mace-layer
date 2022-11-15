@@ -23,6 +23,7 @@ class MACE_layer(torch.nn.Module):
         n_dims_in (int): The number of input node attributes.
         hidden_irreps (str): The hidden irreps definying the node features to construct.
         node_feats_irreps (str): The irreps of the node features in the input.
+        edge_feats_irreps (str): The irreps of the edge features in the input.
         avg_num_neighbors (float): A normalization factor for the pooling operation, 
         usually taken as the average number of neighbors.
         interaction_cls (Callable, optional): The type of interaction block to use. 
@@ -36,7 +37,7 @@ class MACE_layer(torch.nn.Module):
             - **vectors** (torch.Tensor): The edge vectors of shape :math:`(|\mathcal{E}|, 3)`.
             - **node_feats** (torch.Tensor): The node features of shape :math:`(|\mathcal{V}|, \text{node\_feats\_irreps})`.
             - **node_attrs** (torch.Tensor): The node attributes of shape :math:`(|\mathcal{V}|, \text{n\_dims\_in})`.
-            - **edge_feats** (torch.Tensor): The edge features of shape :math:`(|\mathcal{E}|, (\text{max_{ell}} + 1)**2)`.
+            - **edge_feats** (torch.Tensor): The edge features of shape :math:`(|\mathcal{E}|, (\text{egde\_feats\_irreps}))`.
             - **edge_index** (torch.Tensor): The edge indices of shape :math:`(2, |\mathcal{E}|)`.
         - **output:**
             - **node_feats** (torch.Tensor): The node features of shape :math:`(|\mathcal{V}|, \text{hidden\_irreps})`.
@@ -49,6 +50,7 @@ class MACE_layer(torch.nn.Module):
         n_dims_in: int,
         hidden_irreps: str,
         node_feats_irreps: str,
+        edge_feats_irreps: str,
         avg_num_neighbors: float,
         interaction_cls: Optional[Callable] = RealAgnosticResidualInteractionBlock,
         element_dependent: bool = False,
@@ -58,7 +60,7 @@ class MACE_layer(torch.nn.Module):
         node_attr_irreps = o3.Irreps([(n_dims_in, (0, 1))])
         hidden_irreps = o3.Irreps(hidden_irreps)
         node_feats_irreps = o3.Irreps(node_feats_irreps)
-        edge_feats_irreps = o3.Irreps([(hidden_irreps.count(o3.Irrep(0, 1)), (0, 1))])
+        edge_feats_irreps = o3.Irreps(edge_feats_irreps)
         sh_irreps = o3.Irreps.spherical_harmonics(max_ell)
         num_features = hidden_irreps.count(o3.Irrep(0, 1))
         interaction_irreps = (sh_irreps * num_features).sort()[0].simplify()
