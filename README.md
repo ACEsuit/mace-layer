@@ -44,6 +44,60 @@ pip install ./mace
 
 ## Usage
 
+To create a mace layer use this code,
+
+```python
+from mace import MACE_layer
+layer = MACE_layer(
+    max_ell=3,
+    correlation=3,
+    n_dims_in=2,
+    hidden_irreps="16x0e + 16x1o + 16x2e",
+    node_feats_irreps="16x0e + 16x1o + 16x2e",
+    edge_feats_irreps="16x0e",
+    avg_num_neighbors=10.0,
+    use_sc=True,
+)
+node_feats = layer(
+    vectors,
+    node_feats,
+    node_attrs,
+    edge_feats,
+    edge_index,
+)
+```
+with the hyper parameters being,
+
+```
+        max_ell (int): Maximum angular momentum in the spherical expansion on edges, :math:`l = 0, 1, \dots`.
+        Controls the resolution of the spherical expansion.
+        correlation (int): The maximum correlation order of the messages, :math:`\nu = 0, 1, \dots`.
+        n_dims_in (int): The number of input node attributes.
+        hidden_irreps (str): The hidden irreps definying the node features to construct.
+        node_feats_irreps (str): The irreps of the node features in the input.
+        edge_feats_irreps (str): The irreps of the edge features in the input.
+        avg_num_neighbors (float): A normalization factor for the pooling operation, 
+        usually taken as the average number of neighbors.
+        interaction_cls (Callable, optional): The type of interaction block to use. 
+        Defaults to RealAgnosticResidualInteractionBlock.
+        Defaults to False.
+        use_sc (bool, optional): Whether to use the self connection. Defaults to True.
+``` 
+
+and the input,
+
+```python
+Shapes:
+        - **input:**
+            - **vectors** (torch.Tensor): The edge vectors of shape :math:`(|\mathcal{E}|, 3)`.
+            - **node_feats** (torch.Tensor): The node features of shape :math:`(|\mathcal{V}|, \text{node\_feats\_irreps})`.
+            - **node_attrs** (torch.Tensor): The node attributes of shape :math:`(|\mathcal{V}|, \text{n\_dims\_in})`.
+            - **edge_feats** (torch.Tensor): The edge features of shape :math:`(|\mathcal{E}|, (\text{egde\_feats\_irreps}))`.
+            - **edge_index** (torch.Tensor): The edge indices of shape :math:`(2, |\mathcal{E}|)`.
+        - **output:**
+            - **node_feats** (torch.Tensor): The node features of shape :math:`(|\mathcal{V}|, \text{hidden\_irreps})`.
+```
+
 ## Development
 
 We use `black`, `isort`, `pylint`, and `mypy`.
