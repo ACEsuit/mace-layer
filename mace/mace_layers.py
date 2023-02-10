@@ -53,7 +53,6 @@ class MACE_layer(torch.nn.Module):
         edge_feats_irreps: str,
         avg_num_neighbors: float,
         interaction_cls: Optional[Callable] = RealAgnosticResidualInteractionBlock,
-        element_dependent: bool = False,
         use_sc: bool = True,
     ):
         super().__init__()
@@ -81,7 +80,6 @@ class MACE_layer(torch.nn.Module):
             node_feats_irreps=self.interaction.target_irreps,
             target_irreps=hidden_irreps,
             correlation=correlation,
-            element_dependent=element_dependent,
             num_elements=n_dims_in,
             use_sc=use_sc,
         )
