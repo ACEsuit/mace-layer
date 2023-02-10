@@ -1,4 +1,4 @@
-# MACE - Core
+# mace-layer
 
 A MACE layer for broad use on 3D point clouds.
 
