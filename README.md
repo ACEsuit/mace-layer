@@ -20,8 +20,8 @@ conda activate mace_env
 conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch-lts -c conda-forge
 
 # Clone and install MACE (and all required packages), use token if still private repo
-git clone git@github.com:ACEsuit/mace.git 
-pip install ./mace
+git clone git@github.com:ACEsuit/mace-layer.git 
+pip install ./mace-layer
 ```
 
 ### pip installation
@@ -36,8 +36,8 @@ source mace-venv/bin/activate
 pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
 
 # Clone and install MACE (and all required packages)
-git clone git@github.com:ACEsuit/mace.git
-pip install ./mace
+git clone git@github.com:ACEsuit/mace-layer.git
+pip install ./mace-layer
 ```
 
 **Note:** The homonymous package on [PyPI](https://pypi.org/project/MACE/) has nothing to do with this one.
