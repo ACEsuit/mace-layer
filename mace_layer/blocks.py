@@ -6,8 +6,8 @@ import torch
 from e3nn import o3, nn
 from e3nn.util.jit import compile_mode
 
-from mace.scatter import scatter_sum
-from mace.symmetric_contraction import SymmetricContraction
+from mace_layer.scatter import scatter_sum
+from mace_layer.symmetric_contraction import SymmetricContraction
 
 from .irreps_tools import (
     reshape_irreps,

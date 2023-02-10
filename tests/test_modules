@@ -1,6 +1,6 @@
 import torch
-from mace import cg
-from mace.symmetric_contraction import SymmetricContraction
+from mace_layer import cg
+from mace_layer.symmetric_contraction import SymmetricContraction
 
 from e3nn import o3
 
