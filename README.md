@@ -144,4 +144,4 @@ For bugs or feature requests, please use [GitHub Issues](https://github.com/ACEs
 
 ## License
 
-MACE is published and distributed under the [MIT license](License.md).
+MACE is published and distributed under the [MIT license](LICENSE).
