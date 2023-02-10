@@ -47,7 +47,7 @@ pip install ./mace
 To create a mace layer use this code,
 
 ```python
-from mace import MACE_layer
+from mace_layer import MACE_layer
 layer = MACE_layer(
     max_ell=3,
     correlation=3,
