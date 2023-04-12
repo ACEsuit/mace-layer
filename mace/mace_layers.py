@@ -3,14 +3,14 @@ from typing import Callable, Optional
 import torch
 from e3nn import o3
 
-from mace.blocks import (
+from .blocks import (
     EquivariantProductBasisBlock,
     RealAgnosticResidualInteractionBlock,
 )
 
 
 class MACE_layer(torch.nn.Module):
-    r"""A MACE layer from the `"MACE: Higher Order Equivariant Message Passing Neural Networks 
+    r"""A MACE layer from the `"MACE: Higher Order Equivariant Message Passing Neural Networks
     for Fast and Accurate Force Fields, Neurips 2022"
     <https://arxiv.org/abs/2206.07697>`_ paper
     Construct a single layer of the MACE architecture for efficient higher order equivariant message
@@ -24,9 +24,9 @@ class MACE_layer(torch.nn.Module):
         hidden_irreps (str): The hidden irreps definying the node features to construct.
         node_feats_irreps (str): The irreps of the node features in the input.
         edge_feats_irreps (str): The irreps of the edge features in the input.
-        avg_num_neighbors (float): A normalization factor for the pooling operation, 
+        avg_num_neighbors (float): A normalization factor for the pooling operation,
         usually taken as the average number of neighbors.
-        interaction_cls (Callable, optional): The type of interaction block to use. 
+        interaction_cls (Callable, optional): The type of interaction block to use.
         Defaults to RealAgnosticResidualInteractionBlock.
         element_dependent (bool, optional): Whether to use element dependent basis functions.
         Defaults to False.

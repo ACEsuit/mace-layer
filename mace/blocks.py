@@ -6,8 +6,8 @@ import torch
 from e3nn import o3, nn
 from e3nn.util.jit import compile_mode
 
-from mace.scatter import scatter_sum
-from mace.symmetric_contraction import SymmetricContraction
+from .scatter import scatter_sum
+from .symmetric_contraction import SymmetricContraction
 
 from .irreps_tools import (
     reshape_irreps,
@@ -45,16 +45,21 @@ class EquivariantProductBasisBlock(torch.nn.Module):
         correlation: int,
         use_sc: bool = True,
         num_elements: Optional[int] = None,
+        contraction_type: str = "v1",
     ) -> None:
         super().__init__()
 
         self.use_sc = use_sc
+        self.contraction_type = contraction_type
+
         self.symmetric_contractions = SymmetricContraction(
             irreps_in=node_feats_irreps,
             irreps_out=target_irreps,
             correlation=correlation,
             num_elements=num_elements,
+            contraction_type=contraction_type,
         )
+
         # Update linear
         self.linear = o3.Linear(
             target_irreps, target_irreps, internal_weights=True, shared_weights=True,
@@ -84,6 +89,7 @@ class InteractionBlock(torch.nn.Module):
         target_irreps: o3.Irreps,
         hidden_irreps: o3.Irreps,
         avg_num_neighbors: float,
+        rbf_hidden_channels: int = 64,
     ) -> None:
         super().__init__()
         self.node_attrs_irreps = node_attrs_irreps
@@ -93,6 +99,7 @@ class InteractionBlock(torch.nn.Module):
         self.target_irreps = target_irreps
         self.hidden_irreps = hidden_irreps
         self.avg_num_neighbors = avg_num_neighbors
+        self.rbf_hidden_channels = rbf_hidden_channels
 
         self._setup()
 
@@ -138,7 +145,7 @@ class AgnosticInteractionBlock(InteractionBlock):
         # Convolution weights
         input_dim = self.edge_feats_irreps.num_irreps
         self.conv_tp_weights = nn.FullyConnectedNet(
-            [input_dim] + 3 * [64] + [self.conv_tp.weight_numel],
+            [input_dim] + 3 * [self.rbf_hidden_channels] + [self.conv_tp.weight_numel],
             torch.nn.functional.silu,
         )
 
@@ -209,7 +216,7 @@ class RealAgnosticResidualInteractionBlock(InteractionBlock):
         # Convolution weights
         input_dim = self.edge_feats_irreps.num_irreps
         self.conv_tp_weights = nn.FullyConnectedNet(
-            [input_dim] + 3 * [64] + [self.conv_tp.weight_numel],
+            [input_dim] + 3 * [self.rbf_hidden_channels] + [self.conv_tp.weight_numel],
             torch.nn.functional.silu,
         )
 
