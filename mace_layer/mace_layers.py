@@ -21,7 +21,7 @@ class MACE_layer(torch.nn.Module):
         Controls the resolution of the spherical expansion.
         correlation (int): The maximum correlation order of the messages, :math:`\nu = 0, 1, \dots`.
         n_dims_in (int): The number of input node attributes.
-        hidden_irreps (str): The hidden irreps definying the node features to construct.
+        hidden_irreps (str): The hidden irreps defining the node features to construct.
         node_feats_irreps (str): The irreps of the node features in the input.
         edge_feats_irreps (str): The irreps of the edge features in the input.
         avg_num_neighbors (float): A normalization factor for the pooling operation, 

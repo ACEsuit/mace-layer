@@ -117,7 +117,7 @@ class Contraction(torch.nn.Module):
         self.weights = torch.nn.ParameterList([])
 
         for i in range(correlation, 0, -1):
-            # Shapes definying
+            # Shapes definition
             num_params = self.U_tensors(i).size()[-1]
             num_equivariance = 2 * irrep_out.lmax + 1
             num_ell = self.U_tensors(i).size()[-2]
