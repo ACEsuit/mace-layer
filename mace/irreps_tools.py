@@ -84,3 +84,17 @@ class reshape_irreps(torch.nn.Module):
             field = field.reshape(batch, mul, d)
             out.append(field)
         return torch.cat(out, dim=-1)
+
+
+@compile_mode("script")
+class lifted_skip(torch.nn.Module):
+    def __init__(self, irreps_in: o3.Irreps, irreps_out: o3.Irreps) -> None:
+        super().__init__()
+        self.irreps_in = o3.Irreps(irreps_in)
+        self.irreps_out = o3.Irreps(irreps_out)
+        
+    def forward(self, tensor: torch.Tensor) -> torch.Tensor:
+        batch, _ = tensor.shape
+        template = torch.zeros(batch, self.irreps_out.dim, device=tensor.device)
+        template[:, 0 : self.irreps_in.dim] = tensor
+        return template
