@@ -90,6 +90,10 @@ class InteractionBlock(torch.nn.Module):
         hidden_irreps: o3.Irreps,
         avg_num_neighbors: float,
         rbf_hidden_channels: int = 64,
+        edge_gates_irreps: o3.Irreps = o3.Irreps("0e"),
+        num_gates: int = 4,
+        multi_conv: bool = False,
+        exponential: bool = True,
     ) -> None:
         super().__init__()
         self.node_attrs_irreps = node_attrs_irreps
@@ -100,6 +104,10 @@ class InteractionBlock(torch.nn.Module):
         self.hidden_irreps = hidden_irreps
         self.avg_num_neighbors = avg_num_neighbors
         self.rbf_hidden_channels = rbf_hidden_channels
+        self.edge_gates_irreps = edge_gates_irreps
+        self.num_gates = num_gates
+        self.multi_conv = multi_conv
+        self.exponential = exponential
 
         self._setup()
 
